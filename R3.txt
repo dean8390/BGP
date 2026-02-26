@@ -1,0 +1,54 @@
+
+
+# Initial Configuration #
+
+hostname R3
+
+lin con 0
+logging syn
+exit
+
+=========================================================
+
+# IP Address assign #
+
+interface gig 0/0
+des # To_R2 #
+ip address 10.0.2.2 255.255.255.252
+no shutdown
+exit
+
+interface gig 0/1
+des # To_R5 #
+ip address 10.0.4.1 255.255.255.252
+no shutdown
+exit
+
+interface lo0
+ip add 3.3.3.3 255.255.255.0
+no shutdown
+exit
+
+=========================================================
+
+# IGP Configuration #
+
+router ospf 1
+network 10.0.2.0 0.0.0.3 area 0
+network 10.0.4.0 0.0.0.3 area 0
+network 3.3.3.0 0.0.0.255 area 0
+exit
+
+=========================================================
+
+# BGP Configuration #
+
+router bgp 2
+neighbor 2.2.2.2 remote-as 2
+neighbor 2.2.2.2 update-source lo0
+neighbor 4.4.4.4 remote-as 2
+neighbor 4.4.4.4 update-source lo0
+neighbor 5.5.5.5 remote-as 2
+neighbor 5.5.5.5 update-source lo0
+exit
+

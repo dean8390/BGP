@@ -1,0 +1,32 @@
+
+# Initial Configuration #
+
+hostname R6
+
+lin con 0
+logging syn
+exit
+
+=========================================================
+
+# IP Address assign #
+
+interface gig 0/0
+des # To_R5 #
+ip add 10.0.6.1 255.255.255.252
+no shutdown
+exit
+
+interface lo0
+ip add 6.6.6.6 255.255.255.0
+no shutdown
+exit
+
+=========================================================
+
+# BGP Configuration #
+
+router bgp 3
+neighbor 10.0.6.2 remote-as 2
+network 6.6.6.0 mask 255.255.255.0
+exit
